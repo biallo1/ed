@@ -1,0 +1,80 @@
+CREATE TABLE products (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    price DECIMAL(10, 2) NOT NULL
+);
+
+CREATE TABLE categories (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE product_categories (
+    product_id INT NOT NULL,
+    category_id INT NOT NULL,
+    PRIMARY KEY (product_id, category_id),
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
+    FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE
+);
+
+CREATE TABLE receipts (
+	receipt_id INT AUTO_INCREMENT PRIMARY KEY,
+	table_nr INT NOT NULL,
+	price DECIMAL(10, 2) NOT NULL,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO products (name, description, price) VALUES
+('Espresso', 'Rich and bold espresso shot.', 2.50),
+('Latte', 'Creamy milk with a shot of espresso.', 4.00),
+('Cappuccino', 'Foamed milk and espresso with a sprinkle of cocoa.', 4.50),
+('Americano', 'Espresso with hot water.', 3.00),
+('Mocha', 'Espresso with chocolate and steamed milk.', 5.00),
+('Macchiato', 'Espresso topped with a dollop of frothy milk.', 3.50),
+('Iced Coffee', 'Chilled coffee served over ice.', 3.75),
+('Frappuccino', 'Blended iced coffee with milk and flavor.', 5.50),
+('Hot Chocolate', 'Rich, creamy hot chocolate.', 3.50),
+('Tea', 'Freshly brewed tea, various flavors available.', 2.75);
+
+INSERT INTO categories (name) VALUES
+('Coffee'),
+('Iced Drinks'),
+('Hot Drinks'),
+('Blended Beverages'),
+('Non-Coffee Drinks'),
+('Tea'),
+('Snacks'),
+('Pastries'),
+('Breakfast'),
+('Specialty Drinks');
+
+INSERT INTO product_categories (product_id, category_id) VALUES
+(1, 1), -- Espresso -> Coffee
+(2, 1), -- Latte -> Coffee
+(2, 3), -- Latte -> Hot Drinks
+(3, 1), -- Cappuccino -> Coffee
+(3, 3), -- Cappuccino -> Hot Drinks
+(4, 1), -- Americano -> Coffee
+(4, 3), -- Americano -> Hot Drinks
+(5, 1), -- Mocha -> Coffee
+(5, 3), -- Mocha -> Hot Drinks
+(6, 1), -- Macchiato -> Coffee
+(6, 3), -- Macchiato -> Hot Drinks
+(7, 2), -- Iced Coffee -> Iced Drinks
+(8, 4), -- Frappuccino -> Blended Beverages
+(9, 5), -- Hot Chocolate -> Non-Coffee Drinks
+(10, 6); -- Tea -> Tea
+
+ALTER TABLE products ADD COLUMN image_url VARCHAR(255);
+
+UPDATE products SET image_url = '/product-images/espresso.jpg' WHERE name = 'Espresso';
+UPDATE products SET image_url = '/product-images/latte.jpg' WHERE name = 'Latte';
+UPDATE products SET image_url = '/product-images/cappuccino.jpg' WHERE name = 'Cappuccino';
+UPDATE products SET image_url = '/product-images/americano.jpg' WHERE name = 'Americano';
+UPDATE products SET image_url = '/product-images/mocha.jpg' WHERE name = 'Mocha';
+UPDATE products SET image_url = '/product-images/macchiato.jpg' WHERE name = 'Macchiato';
+UPDATE products SET image_url = '/product-images/iced-coffee.jpg' WHERE name = 'Iced Coffee';
+UPDATE products SET image_url = '/product-images/frappuccino.jpg' WHERE name = 'Frappuccino';
+UPDATE products SET image_url = '/product-images/hot-chocolate.jpg' WHERE name = 'Hot Chocolate';
+UPDATE products SET image_url = '/product-images/tea.jpg' WHERE name = 'Tea';
